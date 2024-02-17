@@ -12,8 +12,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+
+        $users = User::select("id", 'name', 'email')
+            ->orderBy('id', 'desc')
+            ->paginate(3);
+        // ->get();
         // dd($users);
+
         return view('users.index', ['users' => $users]);
     }
 
@@ -30,7 +35,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->name);
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+        ]);
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+        return redirect(url('/users'));
     }
 
     /**
@@ -38,13 +52,13 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        // return view('users.show', ['user' => User::find($id)]);
+        $user = User::with('posts')->find($id);
 
-        if ($user = User::find($id)) {
-            return view('users.show', ['user' => $user]);
-        } else {
+        if (!$user) {
             return redirect()->route('users.index');
         }
+        $posts = $user->posts()->simplePaginate(1);
+        return view('users.show', ['user' => $user, 'posts' => $posts]);
     }
 
     /**
@@ -52,9 +66,11 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::find($id);
-        
-        return view('users.edit', ['user' => $user]);
+        if ($user = User::find($id)) {
+            return view('users.edit', ['user' => $user]);
+        } else {
+            return redirect(url('/users'));
+        }
     }
 
     /**
@@ -62,7 +78,24 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+        ]);
+
+        // if ($user = User::find($id)) {
+        //     $user->update([
+        //         'name' => $request->name,
+        //         'email' => $request->email,
+        //     ]);
+        //     return redirect(url('/users'));
+        // }
+
+        User::findOrFail($id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+        return redirect(url('/users'));
     }
 
     /**
@@ -70,6 +103,7 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        User::findOrFail($id)->delete();
+        return redirect(url('/users'));
     }
 }
