@@ -15,6 +15,7 @@
                 <th scope="col">body</th>
                 <th scope="col">published at</th>
                 <th scope="col">user name</th>
+                {{-- <th scope="col">image</th> --}}
                 <th scope="col">action</th>
 
             </thead>
@@ -27,11 +28,11 @@
                                 {{ $post->title }}
                             </a>
                         </td>
-
                         <td>{{ $post->slug }}</td>
                         <td>{{ $post->body }}</td>
                         <td>{{ $post->published_at }}</td>
                         <td>{{ $post->user->name }}</td>
+                        {{-- <td>{{ $post->image }}</td> --}}
                         <td>
                             <a class="text-decoration-none" href="{{ route('posts.edit', $post->id) }}"><button
                                     type="button" class="btn btn-primary">Edit</button></a>

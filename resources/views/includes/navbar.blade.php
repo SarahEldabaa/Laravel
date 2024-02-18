@@ -5,7 +5,7 @@
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link active text-white" aria-current="page" href="/">Home</a>
@@ -35,6 +35,16 @@
                     </ul>
                 </li>
             </ul>
+            {{-- <div class="d-flex  justify-content-end">
+                @guest
+                    <a href="{{ route('login') }}" class="btn btn-outline-light me-2"> Login</a>
+                    <a href="{{ route('register') }}" class="btn btn-outline-light me-2"> Register</a>
+                @endguest
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light">Logout</button>
+                </form>
+            </div> --}}
         </div>
     </div>
 </nav>

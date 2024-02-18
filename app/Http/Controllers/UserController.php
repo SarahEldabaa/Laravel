@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -13,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
 
-        $users = User::select("id", 'name', 'email')
+        $users = User::select("id", 'name', 'email', 'posts_count')
             ->orderBy('id', 'desc')
             ->paginate(3);
         // ->get();
@@ -40,10 +41,12 @@ class UserController extends Controller
             'name' => 'required|string',
             'email' => 'required|email',
         ]);
-        User::create([
+
+        $post = User::create([
             'name' => $request->name,
             'email' => $request->email,
         ]);
+        event(new PostCreated($post));
         return redirect(url('/users'));
     }
 
@@ -83,13 +86,6 @@ class UserController extends Controller
             'email' => 'required|email',
         ]);
 
-        // if ($user = User::find($id)) {
-        //     $user->update([
-        //         'name' => $request->name,
-        //         'email' => $request->email,
-        //     ]);
-        //     return redirect(url('/users'));
-        // }
 
         User::findOrFail($id)->update([
             'name' => $request->name,

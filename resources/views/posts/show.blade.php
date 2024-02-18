@@ -32,6 +32,10 @@
                     <td>User name : </td>
                     <td>{{ $post->user->name }} </td>
                 </tr>
+                <tr>
+                    <td>image : </td>
+                    <td><img src="{{ Storage::url($post->image)}}" alt=""> </td>
+                </tr>
             </tbody>
         </table>
     </div>

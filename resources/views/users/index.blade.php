@@ -13,6 +13,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">#Posts</th>
+                <th scope="col">Posts Count</th>
                 <th scope="col">Action</th>
 
             </thead>
@@ -21,9 +22,10 @@
                     <tr>
                         <td>{{ $user->id }}</td>
                         <td><a class="text-decoration-none"
-                                href="{{ route('users.index') }}/{{ $user->id }}">{{ $user->name }}</a>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->posts->count() }}</td>
+                            href="{{ route('users.index') }}/{{ $user->id }}">{{ $user->name }}</a>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->posts->count() }}</td>
+                            <td>{{ $user->posts_count }}</td>
                         <td>
                             <a class="text-decoration-none"
                                 href="{{ route('users.index') }}/{{ $user->id }}/edit"><button type="button"
